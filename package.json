@@ -1,0 +1,42 @@
+{
+  "name": "@aldanacode/rbac",
+  "version": "0.1.0",
+  "description": "Type-safe RBAC authorization library for TypeScript applications.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "rbac",
+    "authorization",
+    "access-control",
+    "typescript",
+    "security"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "eslint": "^10.9.1",
+    "prettier": "^3.9.6",
+    "tsup": "^8.5.1",
+    "typescript": "5.7.3",
+    "vitest": "^4.1.11"
+  }
+}
