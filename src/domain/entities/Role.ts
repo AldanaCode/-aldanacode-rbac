@@ -1,11 +1,14 @@
 import { Permission } from "./Permission.js";
 
-export class Role {
-  private readonly permissions: Map<string, Permission>;
+export class Role<TPermission extends string = string> {
+  private readonly permissions: Map<
+    TPermission,
+    Permission<TPermission>
+  >;
 
   constructor(
     public readonly name: string,
-    permissions: Permission[] = []
+    permissions: Permission<TPermission>[] = []
   ) {
     if (!name.trim()) {
       throw new Error("Role name cannot be empty");
@@ -19,19 +22,28 @@ export class Role {
     );
   }
 
-  addPermission(permission: Permission): void {
-    this.permissions.set(permission.name, permission);
+  addPermission(
+    permission: Permission<TPermission>
+  ): void {
+    this.permissions.set(
+      permission.name,
+      permission
+    );
   }
 
-  removePermission(permissionName: string): void {
+  removePermission(
+    permissionName: TPermission
+  ): void {
     this.permissions.delete(permissionName);
   }
 
-  hasPermission(permissionName: string): boolean {
+  hasPermission(
+    permissionName: TPermission
+  ): boolean {
     return this.permissions.has(permissionName);
   }
 
-  getPermissions(): Permission[] {
+  getPermissions(): Permission<TPermission>[] {
     return [...this.permissions.values()];
   }
 }

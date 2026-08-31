@@ -4,8 +4,9 @@ import { User } from "./domain/entities/User.js";
 import { AuthorizationService } from "./application/AuthorizationService.js";
 import { InMemoryRoleRepository } from "./infrastructure/memory/InMemoryRoleRepository.js";
 import { InMemoryUserRepository } from "./infrastructure/memory/InMemoryUserRepository.js";
+import { PermissionMap,PermissionName } from "./domain/types/permissions.js";
 
-export class RBAC {
+export class RBAC<TPermissions extends PermissionMap> {
   private readonly roleRepository =
     new InMemoryRoleRepository();
 
@@ -23,13 +24,16 @@ export class RBAC {
 
   async addRole(
     name: string,
-    permissions: string[] = []
+    permissions: PermissionName<TPermissions>[] = []
   ): Promise<void> {
     const role = new Role(
       name,
-      permissions.map(
-        (permission) => new Permission(permission)
+     permissions.map(
+    (permission) =>
+      new Permission<PermissionName<TPermissions>>(
+        permission
       )
+  )
     );
 
     await this.roleRepository.save(role);
@@ -66,7 +70,7 @@ export class RBAC {
 
   async can(
     userId: string,
-    permission: string
+    permission: PermissionName<TPermissions>
   ): Promise<boolean> {
     return this.authorization.can(
       userId,

@@ -1,7 +1,7 @@
 import type { RoleRepository } from "../ports/RoleRepository.js";
 import type { UserRepository } from "../ports/UserRepository.js";
 
-export class AuthorizationService {
+export class AuthorizationService<TPermission extends string = string> {
     constructor(
         private readonly userRepository: UserRepository,
         private readonly roleRepository: RoleRepository
@@ -9,7 +9,7 @@ export class AuthorizationService {
 
     async can(
         userId: string,
-        permission: string
+        permission: TPermission
     ): Promise <boolean>{
         const user = await this.userRepository.findById(userId);
 
