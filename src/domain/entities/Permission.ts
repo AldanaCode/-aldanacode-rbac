@@ -1,13 +1,13 @@
-export class Permission{
-    constructor(
-        public readonly name: string
-    ){
-        if (!name.trim()) {
-            throw new Error("Permission name cannot be empty")
-        }
+export class Permission<TName extends string = string> {
+  constructor(
+    public readonly name: TName
+  ) {
+    if (!name.trim()) {
+      throw new Error("Permission name cannot be empty");
     }
+  }
 
-    equals(other: Permission): boolean {
-        return this.name === other.name
-    }
+  equals(other: Permission<TName>): boolean {
+    return this.name === other.name;
+  }
 }
