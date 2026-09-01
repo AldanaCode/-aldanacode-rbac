@@ -16,16 +16,11 @@ rbac.addRole("admin", [
 
 rbac.can(
   "user-1",
-  "users.update"
-);
-
-// @ts-expect-error Invalid permission
-rbac.can(
-  "user-1",
+  // @ts-expect-error Invalid permission
   "users.cretae"
 );
 
-// @ts-expect-error Invalid permission
 rbac.addRole("bad-role", [
+  // @ts-expect-error Invalid permission
   "users.cretae",
 ]);

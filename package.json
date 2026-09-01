@@ -6,11 +6,15 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    }
+  ".": {
+    "types": "./dist/index.d.ts",
+    "import": "./dist/index.js"
   },
+  "./redis": {
+    "types": "./dist/redis.d.ts",
+    "import": "./dist/redis.js"
+  }
+},
   "files": [
     "dist"
   ],
@@ -38,5 +42,8 @@
     "tsup": "^8.5.1",
     "typescript": "5.7.3",
     "vitest": "^4.1.11"
+  },
+  "dependencies": {
+    "ioredis": "^6.0.0"
   }
 }

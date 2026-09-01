@@ -5,21 +5,37 @@ import { AuthorizationService } from "./application/AuthorizationService.js";
 import { InMemoryRoleRepository } from "./infrastructure/memory/InMemoryRoleRepository.js";
 import { InMemoryUserRepository } from "./infrastructure/memory/InMemoryUserRepository.js";
 import { PermissionMap,PermissionName } from "./domain/types/permissions.js";
+import type { RoleRepository } from "./ports/RoleRepository.js";
+import type { UserRepository } from "./ports/UserRepository.js";
+import { RedisRoleRepository } from "./infrastructure/redis/RedisRoleRepository.js";
+import { RedisUserRepository } from "./infrastructure/redis/RedisUserRepository.js";
+import { createRedisClient } from "./infrastructure/redis/RedisClient.js";
+
+
+export interface RBACOptions {
+  roleRepository?: RoleRepository;
+  userRepository?: UserRepository;
+}
 
 export class RBAC<TPermissions extends PermissionMap> {
-  private readonly roleRepository =
-    new InMemoryRoleRepository();
-
-  private readonly userRepository =
-    new InMemoryUserRepository();
-
+  private readonly roleRepository: RoleRepository;
+  private readonly userRepository: UserRepository;
   private readonly authorization: AuthorizationService;
 
-  constructor() {
-    this.authorization = new AuthorizationService(
-      this.userRepository,
-      this.roleRepository
-    );
+  constructor(options: RBACOptions = {}) {
+    this.roleRepository =
+      options.roleRepository ??
+      new InMemoryRoleRepository();
+
+    this.userRepository =
+      options.userRepository ??
+      new InMemoryUserRepository();
+
+    this.authorization =
+      new AuthorizationService(
+        this.userRepository,
+        this.roleRepository
+      );
   }
 
   async addRole(
@@ -28,12 +44,12 @@ export class RBAC<TPermissions extends PermissionMap> {
   ): Promise<void> {
     const role = new Role(
       name,
-     permissions.map(
-    (permission) =>
-      new Permission<PermissionName<TPermissions>>(
-        permission
+      permissions.map(
+        (permission) =>
+          new Permission<PermissionName<TPermissions>>(
+            permission
+          )
       )
-  )
     );
 
     await this.roleRepository.save(role);
@@ -53,14 +69,18 @@ export class RBAC<TPermissions extends PermissionMap> {
       await this.userRepository.findById(userId);
 
     if (!user) {
-      throw new Error(`User "${userId}" not found`);
+      throw new Error(
+        `User "${userId}" not found`
+      );
     }
 
     const role =
       await this.roleRepository.findByName(roleName);
 
     if (!role) {
-      throw new Error(`Role "${roleName}" not found`);
+      throw new Error(
+        `Role "${roleName}" not found`
+      );
     }
 
     user.assignRole(roleName);
