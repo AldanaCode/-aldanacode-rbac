@@ -9,6 +9,6 @@ export class InMemoryUserRepository implements UserRepository {
     }
 
     async save(user: User): Promise<void> {
-        this.users.set(user.id, user)
+        this.users.set(user.id, user);
     }
 }
