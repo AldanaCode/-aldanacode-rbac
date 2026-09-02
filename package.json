@@ -2,19 +2,30 @@
   "name": "@aldanacode/rbac",
   "version": "0.3.0",
   "description": "Type-safe RBAC authorization library for TypeScript applications.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AldanaCode/-aldanacode-rbac.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AldanaCode/-aldanacode-rbac/issues"
+  },
+  "homepage": "https://github.com/AldanaCode/-aldanacode-rbac#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-  ".": {
-    "types": "./dist/index.d.ts",
-    "import": "./dist/index.js"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./redis": {
+      "types": "./dist/redis.d.ts",
+      "import": "./dist/redis.js"
+    }
   },
-  "./redis": {
-    "types": "./dist/redis.d.ts",
-    "import": "./dist/redis.js"
-  }
-},
   "files": [
     "dist"
   ],
@@ -36,11 +47,13 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/node": "^26.4.0",
     "eslint": "^10.9.1",
     "prettier": "^3.9.6",
     "tsup": "^8.5.1",
     "typescript": "5.7.3",
+    "typescript-eslint": "^8.69.0",
     "vitest": "^4.1.11"
   },
   "dependencies": {

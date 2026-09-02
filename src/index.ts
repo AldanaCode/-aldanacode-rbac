@@ -7,9 +7,7 @@ import { InMemoryUserRepository } from "./infrastructure/memory/InMemoryUserRepo
 import { PermissionMap,PermissionName } from "./domain/types/permissions.js";
 import type { RoleRepository } from "./ports/RoleRepository.js";
 import type { UserRepository } from "./ports/UserRepository.js";
-import { RedisRoleRepository } from "./infrastructure/redis/RedisRoleRepository.js";
-import { RedisUserRepository } from "./infrastructure/redis/RedisUserRepository.js";
-import { createRedisClient } from "./infrastructure/redis/RedisClient.js";
+
 
 
 export interface RBACOptions {

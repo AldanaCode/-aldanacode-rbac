@@ -1,5 +1,5 @@
 import { afterAll, beforeEach, describe, expect, it } from "vitest";
-import Redis from "ioredis";
+
 import { createRedisClient } from "../src/redis.js";
 
 import { RBAC } from "../src/index.js";
